@@ -2,9 +2,11 @@ import styled from '@emotion/styled';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import { BiSquareRounded } from 'react-icons/bi';
 import { BiBadgeCheck } from 'react-icons/bi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { completeTodo } from '../store/todoSlice';
 
 const View = () => {
+  const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos);
   console.log('🚀 ~ file: View.jsx:9 ~ View ~ todos:', todos);
 
@@ -13,7 +15,16 @@ const View = () => {
       {todos.map((todo) => (
         <TodoContainer key={todo.id}>
           <Item>
-            <BiSquareRounded style={{ fontSize: '1.2rem', cursor: 'pointer' }} />
+            <BiSquareRounded
+              onClick={(e) =>
+                dispatch(
+                  completeTodo({
+                    id: todo.id,
+                  })
+                )
+              }
+              style={{ fontSize: '1.2rem', cursor: 'pointer' }}
+            />
             <Title>{todo.title}</Title>
           </Item>
           <Dots>
