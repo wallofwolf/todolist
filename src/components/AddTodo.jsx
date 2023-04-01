@@ -7,6 +7,18 @@ const Addtodo = () => {
   const dispatch = useDispatch();
   const [todoTitle, setTodoTitle] = useState('');
 
+  const handleAddTodo = () => {
+    dispatch(
+      addTodo({
+        id: Date.now(),
+        title: todoTitle,
+        isDone: false,
+        isEidt: false,
+      })
+    );
+    setTodoTitle('');
+  };
+
   return (
     <AddSection>
       <AddTodo
@@ -16,20 +28,13 @@ const Addtodo = () => {
         maxLength={30}
         onChange={(e) => setTodoTitle(e.target.value)}
         value={todoTitle}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') {
+            handleAddTodo();
+          }
+        }}
       />
-      <AddBtn
-        onClick={() => {
-          dispatch(
-            addTodo({
-              id: Date.now(),
-              title: todoTitle,
-              isDone: false,
-            })
-          );
-          setTodoTitle('');
-        }}>
-        추가
-      </AddBtn>
+      <AddBtn onClick={handleAddTodo}>추가</AddBtn>
     </AddSection>
   );
 };

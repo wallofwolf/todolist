@@ -1,29 +1,52 @@
 import styled from '@emotion/styled';
+import { useState } from 'react';
 import { BiPencil } from 'react-icons/bi';
 import { BiX } from 'react-icons/bi';
 import { BiSquareRounded } from 'react-icons/bi';
 import { BiBadgeCheck } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
-import { completeTodo, deleteTodo } from '../store/todoSlice';
+import { completeTodo, deleteTodo, editInput, editTodo } from '../store/todoSlice';
+import ConfirmAlert from './ConfirmAlert';
 
 const View = () => {
   const dispatch = useDispatch();
+  const [editedTitle, setEditedTitle] = useState('');
   const todos = useSelector((state) => state.todos);
   console.log('🚀 ~ file: View.jsx:9 ~ View ~ todos:', todos);
 
-  const handleIsDone = ({ id }) =>
+  const handleIsDone = ({ id }) => {
     dispatch(
       completeTodo({
         id: id,
       })
     );
+  };
 
-  const handleDelete = ({ id }) =>
+  const handleDelete = ({ id }) => {
     dispatch(
       deleteTodo({
         id: id,
       })
     );
+  };
+
+  const handleEditInput = ({ id }) => {
+    setEditedTitle('');
+    dispatch(
+      editInput({
+        id: id,
+      })
+    );
+  };
+
+  const handleEdit = ({ id }) => {
+    dispatch(
+      editTodo({
+        id: id,
+        title: editedTitle,
+      })
+    );
+  };
 
   return (
     <ViewSection>
@@ -39,10 +62,34 @@ const View = () => {
               <BiBadgeCheck onClick={() => handleIsDone(todo)} />
             )}
 
-            <Title>{todo.title}</Title>
+            {todo.isEdit === true ? (
+              <EditInput
+                type='text'
+                autoFocus
+                placeholder='수정 취소는 ESC'
+                onChange={(e) => setEditedTitle(e.target.value)}
+                maxLength={30}
+                value={editedTitle}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    handleEdit(todo);
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') {
+                    handleEditInput(todo);
+                  }
+                }}
+              />
+            ) : (
+              <Title>{todo.title}</Title>
+            )}
           </Item>
           <MoreFeature>
-            <BiPencil style={{ fontSize: 15 }} />
+            <BiPencil
+              onClick={() => handleEditInput(todo)}
+              style={{ fontSize: 15 }}
+            />
             <BiX
               onClick={() => handleDelete(todo)}
               style={{ fontSize: 20 }}
@@ -50,6 +97,7 @@ const View = () => {
           </MoreFeature>
         </TodoContainer>
       ))}
+      <ConfirmAlert />
     </ViewSection>
   );
 };
@@ -82,6 +130,19 @@ const Item = styled.div`
 
 const Title = styled.div`
   cursor: pointer;
+  font-size: 1rem;
+`;
+
+const EditInput = styled.input`
+  background-color: transparent;
+  caret-color: #feff92;
+  color: white;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #feff92;
+  ::placeholder {
+    color: #aeaeae;
+  }
   font-size: 1rem;
 `;
 
