@@ -1,7 +1,9 @@
+import Main from './components/Main';
+
 const App = () => {
   return (
     <>
-      <div>1</div>
+      <Main/>
     </>
   );
 };
