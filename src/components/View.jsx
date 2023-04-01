@@ -1,35 +1,53 @@
 import styled from '@emotion/styled';
-import { BiDotsHorizontalRounded } from 'react-icons/bi';
+import { BiPencil } from 'react-icons/bi';
+import { BiX } from 'react-icons/bi';
 import { BiSquareRounded } from 'react-icons/bi';
 import { BiBadgeCheck } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
-import { completeTodo } from '../store/todoSlice';
+import { completeTodo, deleteTodo } from '../store/todoSlice';
 
 const View = () => {
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos);
   console.log('🚀 ~ file: View.jsx:9 ~ View ~ todos:', todos);
 
+  const handleIsDone = ({ id }) =>
+    dispatch(
+      completeTodo({
+        id: id,
+      })
+    );
+
+  const handleDelete = ({ id }) =>
+    dispatch(
+      deleteTodo({
+        id: id,
+      })
+    );
+
   return (
     <ViewSection>
       {todos.map((todo) => (
         <TodoContainer key={todo.id}>
           <Item>
-            <BiSquareRounded
-              onClick={(e) =>
-                dispatch(
-                  completeTodo({
-                    id: todo.id,
-                  })
-                )
-              }
-              style={{ fontSize: '1.2rem', cursor: 'pointer' }}
-            />
+            {todo.isDone === false ? (
+              <BiSquareRounded
+                onClick={() => handleIsDone(todo)}
+                style={{ fontSize: '1.2rem', cursor: 'pointer' }}
+              />
+            ) : (
+              <BiBadgeCheck onClick={() => handleIsDone(todo)} />
+            )}
+
             <Title>{todo.title}</Title>
           </Item>
-          <Dots>
-            <BiDotsHorizontalRounded />
-          </Dots>
+          <MoreFeature>
+            <BiPencil style={{ fontSize: 15 }} />
+            <BiX
+              onClick={() => handleDelete(todo)}
+              style={{ fontSize: 20 }}
+            />
+          </MoreFeature>
         </TodoContainer>
       ))}
     </ViewSection>
@@ -67,7 +85,10 @@ const Title = styled.div`
   font-size: 1rem;
 `;
 
-const Dots = styled.div`
+const MoreFeature = styled.div`
   cursor: pointer;
-  color: #feff92;
+  color: #fdff9291;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 `;
