@@ -1,15 +1,13 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
-import { BiPencil } from 'react-icons/bi';
-import { BiX } from 'react-icons/bi';
-import { BiSquareRounded } from 'react-icons/bi';
-import { BiBadgeCheck } from 'react-icons/bi';
+import { BiBadgeCheck, BiPencil, BiSquareRounded, BiX } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { completeTodo, deleteTodo, editInput, editTodo } from '../store/todoSlice';
-import ConfirmAlert from './ConfirmAlert';
 
 const View = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [editedTitle, setEditedTitle] = useState('');
   const todos = useSelector((state) => state.todos);
   console.log('🚀 ~ file: View.jsx:9 ~ View ~ todos:', todos);
@@ -59,7 +57,10 @@ const View = () => {
                 style={{ fontSize: '1.2rem', cursor: 'pointer' }}
               />
             ) : (
-              <BiBadgeCheck onClick={() => handleIsDone(todo)} />
+              <BiBadgeCheck
+                onClick={() => handleIsDone(todo)}
+                style={{ cursor: 'pointer' }}
+              />
             )}
 
             {todo.isEdit === true ? (
@@ -82,7 +83,7 @@ const View = () => {
                 }}
               />
             ) : (
-              <Title>{todo.title}</Title>
+              <Title onClick={() => navigate(`/${todo.id}`)}>{todo.title}</Title>
             )}
           </Item>
           <MoreFeature>
@@ -97,7 +98,6 @@ const View = () => {
           </MoreFeature>
         </TodoContainer>
       ))}
-      <ConfirmAlert />
     </ViewSection>
   );
 };
@@ -112,6 +112,18 @@ const ViewSection = styled.div`
   color: #a1fcea;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #feff92;
+    border-radius: 1rem;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #2f2f2f;
+    border-radius: 1rem;
+  }
 `;
 
 const TodoContainer = styled.div`

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import Addtodo from './AddTodo';
-import View from './View';
+import Addtodo from '../components/AddTodo';
+import View from '../components/View';
 
 const Main = () => {
   return (

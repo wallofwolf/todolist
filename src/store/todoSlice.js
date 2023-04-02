@@ -1,25 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { v4 } from 'uuid';
+import { now } from '../utils/date';
 
 export const todoSlice = createSlice({
   name: 'todos',
   initialState: [
     {
-      id: 1,
-      title: '할 일 1',
+      id: v4(),
+      title: '체크박스를 눌러 할 일을 완료하세요',
       isDone: false,
       isEdit: false,
+      createdDate: now(),
     },
     {
-      id: 2,
-      title: '할 일 2',
+      id: v4(),
+      title: '연필 아이콘을 눌러 할 일을 수정하세요',
       isDone: false,
       isEdit: false,
+      createdDate: now(),
     },
     {
-      id: 3,
-      title: '할 일 3',
+      id: v4(),
+      title: 'X 버튼을 눌러 할 일을 삭제하세요',
       isDone: false,
       isEdit: false,
+      createdDate: now(),
     },
   ],
   reducers: {

@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
-import { useId, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodo } from '.././store/todoSlice';
+import { now } from '../utils/date';
+import { v4 } from 'uuid';
 
 const Addtodo = () => {
   const dispatch = useDispatch();
@@ -10,10 +12,11 @@ const Addtodo = () => {
   const handleAddTodo = () => {
     dispatch(
       addTodo({
-        id: Date.now(),
+        id: v4(),
         title: todoTitle,
         isDone: false,
         isEidt: false,
+        createdDate: now(),
       })
     );
     setTodoTitle('');

@@ -1,10 +1,26 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-const ConfirmAlert = ({ message, onClick, isAlertOpen, handleAlertClose }) => {
+const useAlert = (message, onClick, todo) => {
+  console.log(todo);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
 
+  const handleAlertClose = () => {
+    setIsAlertOpen(false);
+  };
 
-  return (
+  const handleAlertOpen = () => {
+    setIsAlertOpen(true);
+  };
+
+  const handleBtnClick = () => {
+    console.log(todo);
+    if (!todo) return; // todo 객체가 없으면 함수를 빠져나갑니다.
+    onClick(todo.id);
+    handleAlertClose();
+  };
+
+  const Alert = () => (
     <>
       {isAlertOpen === true ? (
         <ModalWrapper>
@@ -12,7 +28,7 @@ const ConfirmAlert = ({ message, onClick, isAlertOpen, handleAlertClose }) => {
           <Content>
             <Title>{message}</Title>
             <BtnContainer>
-              <OkayBtn onClick={onClick}>확인</OkayBtn>
+              <OkayBtn onClick={handleBtnClick}>확인</OkayBtn>
               <CloseBtn onClick={handleAlertClose}>닫기</CloseBtn>
             </BtnContainer>
           </Content>
@@ -20,9 +36,11 @@ const ConfirmAlert = ({ message, onClick, isAlertOpen, handleAlertClose }) => {
       ) : null}
     </>
   );
+
+  return [isAlertOpen, handleAlertOpen, handleAlertClose, Alert];
 };
 
-export default ConfirmAlert;
+export default useAlert;
 
 const ModalWrapper = styled.div`
   position: fixed;
