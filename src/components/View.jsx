@@ -124,6 +124,12 @@ const ViewSection = styled.div`
     background-color: #2f2f2f;
     border-radius: 1rem;
   }
+
+  @media (max-width: 620px) {
+    width: 100%;
+    height: 100%;
+  }
+
 `;
 
 const TodoContainer = styled.div`
@@ -132,6 +138,12 @@ const TodoContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 1.5rem;
+
+  @media (max-width: 620px) {
+    width: 100%;
+    height: 100%;
+    height: 1.5rem;
+  }
 `;
 
 const Item = styled.div`

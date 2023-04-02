@@ -45,6 +45,11 @@ const Container = styled.div`
   align-items: flex-start;
   flex-direction: column;
   color: white;
+
+  @media (max-width: 620px) {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const Title = styled.div`
@@ -79,5 +84,23 @@ const Btn = styled.button`
   :hover {
     background-color: #a1fcea;
     color: #232323;
+  }
+
+  @media (max-width: 620px) {
+    background-color: transparent;
+    color: #a1fcea;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 7rem;
+    height: 2.5rem;
+    border: 1px solid white;
+    border-radius: 0.5rem;
+    :hover {
+      background-color: #a1fcea;
+      color: #232323;
+    }
+    position: relative;
+    top: 3rem;
+    left: 0;
   }
 `;

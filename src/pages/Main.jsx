@@ -29,4 +29,10 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  @media (max-width: 620px) {
+    width: 100%;
+    height: 100%;
+    
+  }
 `;
